@@ -1,5 +1,6 @@
 from tensorflow.keras.models import load_model
-from keras.preprocessing.image import img_to_array
+from tensorflow.keras.utils import img_to_array
+#from keras.preprocessing.image import img_to_array
 from keras.preprocessing import image
 import cv2
 import numpy as np
@@ -58,4 +59,4 @@ def video_classify():
 def image_classify(frame):
     frame = cv2.imread(frame)
     frame1 = classify(frame)
-    cv2.imwrite(r'D:\Project FER\FER\img\out.jpg', frame1)
+    cv2.imwrite(r'img/out.jpg', frame1)

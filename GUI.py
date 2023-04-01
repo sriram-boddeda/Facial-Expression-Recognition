@@ -9,7 +9,7 @@ def open_files():
 	H.pack()
 	H.place(x=675,y=10)
 	global filename
-	filename = filedialog.askopenfilename(initialdir=r"/img", title="Select A File", filetypes=(("jpg files", "*.jpg"),("all files", "*.*")))
+	filename = filedialog.askopenfilename(initialdir=r"img", title="Select A File", filetypes=(("jpg files", "*.jpg"),("all files", "*.*")))
 
 	T = Label(root, text="Input", font=("Times", 22), fg='black')
 	T.pack()
@@ -24,9 +24,8 @@ def open_files():
 	T = Label(root, text="Output", font=("Times", 22), fg='black')
 	T.pack()
 	T.place(x=1030,y=100)
-
 	global out
-	out = ImageTk.PhotoImage(Image.open("D:\Project FER\FER\img\out.jpg").resize((400, 250), Image.ANTIALIAS))
+	out = ImageTk.PhotoImage(Image.open("img/out.jpg").resize((400, 250), Image.ANTIALIAS))
 	q=w.create_image(850,150, anchor=NW, image=out)
 	
 def image_c():
