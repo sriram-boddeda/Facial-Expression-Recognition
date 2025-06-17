@@ -1,6 +1,5 @@
 PyQt5
 PyQtWebEngine
-keras
 numpy
 opencv_python
 Pillow

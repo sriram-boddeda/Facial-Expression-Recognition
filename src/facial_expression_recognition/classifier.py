@@ -1,6 +1,5 @@
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import img_to_array
-from keras.preprocessing import image
 import cv2
 import numpy as np
 import math as mt
@@ -11,7 +10,9 @@ ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 face_classifier = cv2.CascadeClassifier(
     os.path.join(ROOT_DIR, "haarcascade_frontalface_default.xml")
 )
-classifier = load_model(os.path.join(ROOT_DIR, "Trained_Model.h5"))
+classifier = load_model(
+    os.path.join(ROOT_DIR, "Trained_Model.h5"), compile=False
+)
 
 class_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
 

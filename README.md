@@ -16,7 +16,8 @@ This project provides a small PyQt5 based interface for performing facial expres
    ```bash
    ./scripts/setup.sh            # or ./scripts/setup.sh cpu/macos
    ```
-   Pass `cpu` or `macos` to install TensorFlow for your platform.
+   Pass `cpu` or `macos` to install TensorFlow for your platform. The base
+   installation only includes cross-platform packages.
 
 ## Obtaining `Trained_Model.h5`
 
