@@ -1,6 +1,6 @@
 # Facial-Expression-Recognition
 
-This project provides a small Tkinter based interface for performing facial expression classification on both images and live video. It relies on a pre-trained convolutional neural network and OpenCV for face detection.
+This project provides a small PyQt5 based interface for performing facial expression classification on both images and live video. It relies on a pre-trained convolutional neural network and OpenCV for face detection.
 
 ## Installation
 
