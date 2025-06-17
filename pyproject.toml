@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "facial_expression_recognition"
+version = "0.1.0"
+dependencies = [
+    "PyQt5",
+    "PyQtWebEngine",
+    "keras",
+    "numpy",
+    "opencv_python",
+    "Pillow",
+]
+
+[project.optional-dependencies]
+cpu = ["tensorflow"]
+macos = ["tensorflow_macos"]
+
+[project.scripts]
+fer = "facial_expression_recognition.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

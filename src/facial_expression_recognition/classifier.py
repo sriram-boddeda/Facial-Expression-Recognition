@@ -1,13 +1,16 @@
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import img_to_array
-#from keras.preprocessing.image import img_to_array
 from keras.preprocessing import image
 import cv2
 import numpy as np
 import math as mt
+import os
 
-face_classifier = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-classifier = load_model('Trained_Model.h5')
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+face_classifier = cv2.CascadeClassifier(
+    os.path.join(ROOT_DIR, "haarcascade_frontalface_default.xml")
+)
+classifier = load_model(os.path.join(ROOT_DIR, "Trained_Model.h5"))
 
 class_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
 

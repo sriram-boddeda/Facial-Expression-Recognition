@@ -4,3 +4,11 @@ lib
 Trained_Model.h5
 img/.DS_Store
 __pycache__
+
+
+!pyproject.toml
+!.python-version
+!scripts/
+!scripts/**
+!src/
+!src/**

@@ -4,7 +4,7 @@ from PyQt5.QtGui import QImage, QPixmap
 from PIL import Image
 import os
 import numpy as np
-from Classifier import classify
+from .classifier import classify
 
 
 class ImageClassifierTab(QWidget):
@@ -36,7 +36,8 @@ class ImageClassifierTab(QWidget):
         self.setLayout(layout)
 
     def choose_image(self):
-        initial_dir = os.path.join(os.path.dirname(__file__), "img")
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        initial_dir = os.path.join(project_root, "img")
         file_path, _ = QFileDialog.getOpenFileName(self, "Select Image", initial_dir,
                                                    "Image Files (*.jpg *.jpeg *.png);;All Files (*)")
         if file_path:

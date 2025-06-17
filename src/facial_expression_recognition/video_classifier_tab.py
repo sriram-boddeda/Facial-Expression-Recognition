@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from PIL import Image, ImageTk
 #from Test import classify
-import Classifier
+from . import classifier
 
 class VideoClassifierTab:
     def __init__(self, tab_control):
@@ -27,7 +27,7 @@ class VideoClassifierTab:
         # Your custom function to process the video frame
         # Example: Convert the frame to grayscale
         # gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        return Classifier.classify(frame)
+        return classifier.classify(frame)
 
     def show_frame(self):
         if self.video_stream_active and self.cap is not None:

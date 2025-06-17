@@ -9,10 +9,14 @@ This project provides a small PyQt5 based interface for performing facial expres
    git clone https://github.com/your-user/Facial-Expression-Recognition.git
    cd Facial-Expression-Recognition
    ```
-2. Install the required Python packages. TensorFlow 2.12 requires Python 3.8–3.10.
+2. Install the required Python packages. The repository provides a
+   `.python-version` file for [pyenv](https://github.com/pyenv/pyenv). Run the
+   setup script to create a virtual environment and install the package from
+   `pyproject.toml`.
    ```bash
-   pip install -r requirements.txt
+   ./scripts/setup.sh            # or ./scripts/setup.sh cpu/macos
    ```
+   Pass `cpu` or `macos` to install TensorFlow for your platform.
 
 ## Obtaining `Trained_Model.h5`
 
@@ -26,7 +30,7 @@ A trained model is required to run the classifiers:
 Run the main application:
 
 ```bash
-python main.py
+python -m facial_expression_recognition
 ```
 
 The interface contains two tabs:
