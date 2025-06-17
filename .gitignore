@@ -12,3 +12,4 @@ __pycache__
 !scripts/**
 !src/
 !src/**
+src/**/__pycache__/

@@ -2,8 +2,15 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
-from .video_classifier_tab import VideoClassifierTab
-from .image_classifier_tab import ImageClassifierTab
+
+if __package__ in (None, ""):
+    import os
+    sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+    from facial_expression_recognition.video_classifier_tab import VideoClassifierTab
+    from facial_expression_recognition.image_classifier_tab import ImageClassifierTab
+else:
+    from .video_classifier_tab import VideoClassifierTab
+    from .image_classifier_tab import ImageClassifierTab
 
 
 class MainApplication(QMainWindow):
@@ -34,8 +41,12 @@ class MainApplication(QMainWindow):
             self.image_classifier.update_images()
 
 
-if __name__ == "__main__":
+def main():
     app = QApplication(sys.argv)
     main_window = MainApplication()
     main_window.show()
     sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()

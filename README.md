@@ -33,6 +33,12 @@ Run the main application:
 python -m facial_expression_recognition
 ```
 
+You may also execute the file directly:
+
+```bash
+python src/facial_expression_recognition/main.py
+```
+
 The interface contains two tabs:
 
 1. **Image Classifier** – choose an image and the model will annotate the detected faces.
