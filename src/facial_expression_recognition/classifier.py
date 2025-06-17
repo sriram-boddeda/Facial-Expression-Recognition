@@ -6,7 +6,8 @@ import numpy as np
 import math as mt
 import os
 
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Determine the project root (two levels above this file)
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 face_classifier = cv2.CascadeClassifier(
     os.path.join(ROOT_DIR, "haarcascade_frontalface_default.xml")
 )
