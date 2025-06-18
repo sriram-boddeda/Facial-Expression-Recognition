@@ -3,4 +3,13 @@
 lib
 Trained_Model.h5
 img/.DS_Store
-__pycache__
+__pycache____pycache__
+*.pyc
+*.pyd
+.venv
+venv
+.vscode
+.idea
+*.iml
+dist/
+build/
