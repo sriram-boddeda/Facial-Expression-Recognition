@@ -41,3 +41,12 @@ The interface contains two tabs:
 ### Example: Video Classification
 
 ![Video classification example](images/video_classification_example.gif)
+
+### Web Interface
+
+A simple Streamlit application is also available. Launch it with:
+
+```bash
+streamlit run src/fer_app/web_app.py
+```
+

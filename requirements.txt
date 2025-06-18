@@ -6,3 +6,6 @@ opencv_python
 Pillow
 tensorflow
 tensorflow_macos
+
+streamlit
+streamlit-webrtc
