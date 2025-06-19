@@ -29,13 +29,25 @@ def _get_classifier():
 class_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
 
 def classify(frame):
-    if frame is None:
-        raise ValueError("Received empty frame for classification.")
+    if frame is None or frame.size == 0:
+        raise ValueError("Received empty or invalid frame for classification.")
 
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = face_classifier.detectMultiScale(gray, 1.3, 5)
+    try:
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    except cv2.error as e:
+        raise RuntimeError(f"Failed to convert frame to grayscale: {e}")
+
+    if gray is None or gray.size == 0:
+        raise ValueError("Grayscale conversion resulted in an empty image.")
+
+    try:
+        faces = face_classifier.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
+    except cv2.error as e:
+        raise RuntimeError(
+            f"detectMultiScale failed on grayscale frame with shape {gray.shape}: {e}"
+        )
+
     c = 1
-
     for (x, y, w, h) in faces:
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
         rof_gray = gray[y:y + h, x:x + w]
@@ -43,8 +55,8 @@ def classify(frame):
 
         if np.sum(rof_gray) != 0:
             rof = rof_gray.astype('float32') / 255.0
-            rof = img_to_array(rof)  # (48, 48, 1)
-            rof = np.expand_dims(rof, axis=0)  # (1, 48, 48, 1)
+            rof = img_to_array(rof)
+            rof = np.expand_dims(rof, axis=0)
 
             preds = _get_classifier().predict(rof, verbose=0)[0]
             label = class_labels[preds.argmax()]
