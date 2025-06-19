@@ -9,17 +9,17 @@ This project provides a small PyQt6 based interface for performing facial expres
    git clone https://github.com/your-user/Facial-Expression-Recognition.git
    cd Facial-Expression-Recognition
    ```
-2. Install the required Python packages. TensorFlow 2.12 requires Python 3.8–3.10.
+2. Install the required Python packages(Install python version from .python-version using pyenv and use that as local to create virtual environment(venv) for the project).
    ```bash
    pip install -r requirements.txt
    ```
 
-## Obtaining `Trained_Model.h5`
+## Obtaining `models/Trained_Model.keras`
 
 A trained model is required to run the classifiers:
 
-- **Download**: Grab `Trained_Model.h5` from [Google Drive](https://drive.google.com/file/d/1RaSSzdPUyg-C6nV9Ztr7x6nlFf4xTCld) and place it in the `models/` directory at the project root.
-- **Train it yourself**: Use `Model_Training.ipynb` together with the [FER-2013 dataset](https://www.kaggle.com/datasets/msambare/fer2013) to train a model and save it to `models/Trained_Model.h5`.
+- **Download**: Grab `models/Trained_Model.keras` from [Google Drive](https://drive.google.com/file/d/16yW_2m_IRVToAXQqWF8o6oomhAcbgKq8/view?usp=sharing) and place it in the `models/` directory at the project root.
+- **Train it yourself**: Use `notebooks/Model_Training.ipynb` together with the [FER-2013 dataset](https://www.kaggle.com/datasets/msambare/fer2013) to train a model and save it to `models/models/Trained_Model.keras`.
 
 ## Usage
 
@@ -49,4 +49,3 @@ A simple Streamlit application is also available. Launch it with:
 ```bash
 streamlit run src/fer_app/web_app.py
 ```
-

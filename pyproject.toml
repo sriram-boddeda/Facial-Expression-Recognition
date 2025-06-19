@@ -1,0 +1,32 @@
+[project]
+name = "facial-expression-recognition"
+version = "0.1.0"
+description = "PyQt6 desktop client for facial expression recognition"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Sriram Boddeda"}
+]
+dependencies = [
+    "PyQt6",
+    "PyQt6-WebEngine",
+    "keras",
+    "numpy",
+    "opencv-python",
+    "Pillow",
+    "tensorflow",
+    "tensorflow-macos",
+    "scikit-learn",
+    "matplotlib",
+    "seaborn",
+    "streamlit",
+    "streamlit-webrtc"
+]
+
+[project.urls]
+Homepage = "https://github.com/your-user/Facial-Expression-Recognition"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
