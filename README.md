@@ -34,6 +34,23 @@ The interface contains two tabs:
 1. **Image Classifier** – choose an image and the model will annotate the detected faces.
 2. **Video Classifier** – start the webcam feed and view the predicted expressions in real time.
 
+### Settings
+
+You can provide a `settings.json` file in the project root to configure the model path and video source. The default file looks like:
+
+```json
+{
+  "model_path": "models/Trained_Model.keras",
+  "video_source": 0
+}
+```
+
+Command-line options override the file:
+
+```bash
+python main.py --model-path path/to/model --video-source 1
+```
+
 ### Example: Image Classification
 
 ![Example image classification](images/image_classification_example.jpg)

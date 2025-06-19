@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QFileDialog
+from PyQt6.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QFileDialog, QMessageBox
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QImage, QPixmap
 from PIL import Image
@@ -42,7 +42,11 @@ class ImageClassifierTab(QWidget):
         if file_path:
             self.selected_image_path = file_path
             self.input_image = Image.open(self.selected_image_path)
-            self.output_image = Image.fromarray(classify(np.array(self.input_image)))
+            try:
+                self.output_image = Image.fromarray(classify(np.array(self.input_image)))
+            except Exception as e:
+                QMessageBox.critical(self, "Classification Error", str(e))
+                return
             self.update_images()
 
     def update_images(self):

@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import math as mt
 import os
-from .paths import PROCESSED_DATA_DIR, MODEL_PATH
+from .paths import PROCESSED_DATA_DIR, MODEL_PATH as DEFAULT_MODEL_PATH
 
 output_image_path = f"{PROCESSED_DATA_DIR}/output_image.jpg"
 
@@ -16,14 +16,28 @@ if face_classifier.empty():
     raise IOError(f"Failed to load Haar Cascade XML from {CASCADE_PATH}")
 
 _classifier = None
+_model_path = DEFAULT_MODEL_PATH
+
+def set_model_path(path: str):
+    """Override the path to the trained model."""
+    global _model_path, _classifier
+    _model_path = path
+    _classifier = None
+
+def get_model_path() -> str:
+    """Return the currently configured model path."""
+    return _model_path
 
 def _get_classifier():
     """Lazily load the model (supports .keras or .h5)"""
     global _classifier
     if _classifier is None:
-        if not os.path.exists(MODEL_PATH):
-            raise FileNotFoundError(f"Model file not found at {MODEL_PATH}.")
-        _classifier = load_model(MODEL_PATH, compile=False)
+        if not os.path.exists(_model_path):
+            raise FileNotFoundError(f"Model file not found at {_model_path}.")
+        try:
+            _classifier = load_model(_model_path, compile=False)
+        except Exception as e:
+            raise RuntimeError(f"Failed to load model from {_model_path}: {e}")
     return _classifier
 
 class_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
@@ -58,7 +72,10 @@ def classify(frame):
             rof = img_to_array(rof)
             rof = np.expand_dims(rof, axis=0)
 
-            preds = _get_classifier().predict(rof, verbose=0)[0]
+            try:
+                preds = _get_classifier().predict(rof, verbose=0)[0]
+            except Exception as e:
+                raise RuntimeError(f"Model prediction failed: {e}")
             label = class_labels[preds.argmax()]
             label_position = (x, y + h + 8)
             facex = f"face {c}"
@@ -72,10 +89,10 @@ def classify(frame):
 
     return frame
 
-def video_classify():
-    cap = cv2.VideoCapture(0)
+def video_classify(video_source=0):
+    cap = cv2.VideoCapture(video_source)
     if not cap.isOpened():
-        raise RuntimeError("Webcam could not be opened.")
+        raise RuntimeError(f"Video source {video_source} could not be opened.")
 
     while True:
         ret, frame = cap.read()

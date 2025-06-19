@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QPushButton, QLabel, QVBoxLayout
+from PyQt6.QtWidgets import QWidget, QPushButton, QLabel, QVBoxLayout, QMessageBox
 from PyQt6.QtCore import QTimer, Qt
 from PyQt6.QtGui import QImage, QPixmap
 import cv2
@@ -9,8 +9,10 @@ from Classifier import classify
 class VideoClassifierTab(QWidget):
     """Tab displaying webcam video with real-time emotion classification."""
 
-    def __init__(self):
+    def __init__(self, video_source=0):
         super().__init__()
+
+        self.video_source = video_source
 
         self.video_stream_active = False
         self.cap = None
@@ -31,7 +33,12 @@ class VideoClassifierTab(QWidget):
         self.timer.timeout.connect(self.show_frame)
 
     def process_frame(self, frame):
-        return classify(frame)
+        try:
+            return classify(frame)
+        except Exception as e:
+            QMessageBox.critical(self, "Classification Error", str(e))
+            self.stop_video_stream()
+            return frame
 
     def show_frame(self):
         if self.video_stream_active and self.cap is not None:
@@ -74,7 +81,13 @@ class VideoClassifierTab(QWidget):
         if not self.video_stream_active:
             self.start_video_classifier_button.setText("Stop Video Classifier")
             self.video_stream_active = True
-            self.cap = cv2.VideoCapture(0)
+            self.cap = cv2.VideoCapture(self.video_source)
+            if not self.cap.isOpened():
+                QMessageBox.critical(self, "Camera Error",
+                                     f"Unable to open video source {self.video_source}")
+                self.video_stream_active = False
+                self.start_video_classifier_button.setText("Start Video Classifier")
+                return
             self.timer.start(10)
         else:
             self.stop_video_stream()
