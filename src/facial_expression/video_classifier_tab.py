@@ -1,41 +1,44 @@
-import tkinter as tk
-from tkinter import ttk
+from PyQt6.QtWidgets import QWidget, QPushButton, QLabel, QVBoxLayout
+from PyQt6.QtCore import QTimer, Qt
+from PyQt6.QtGui import QImage, QPixmap
 import cv2
 import numpy as np
-from PIL import Image, ImageTk
-#from Test import classify
 import Classifier
 
-class VideoClassifierTab:
-    def __init__(self, tab_control):
-        self.tab1 = ttk.Frame(tab_control)
-        tab_control.add(self.tab1, text="Video Classifier")
+
+class VideoClassifierTab(QWidget):
+    """Tab displaying webcam video with real-time emotion classification."""
+
+    def __init__(self):
+        super().__init__()
 
         self.video_stream_active = False
         self.cap = None
-        self.resized_frame = None
         self.min_width = 200
         self.min_height = 200
 
-        self.start_video_classifier_button = ttk.Button(self.tab1, text="Start Video Classifier", command=self.toggle_video_stream)
-        self.start_video_classifier_button.pack(padx=10, pady=10)
+        layout = QVBoxLayout()
+        self.start_video_classifier_button = QPushButton("Start Video Classifier")
+        self.start_video_classifier_button.clicked.connect(self.toggle_video_stream)
+        layout.addWidget(self.start_video_classifier_button)
 
-        self.video_label = ttk.Label(self.tab1)
-        self.video_label.pack()
+        self.video_label = QLabel()
+        self.video_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self.video_label)
+        self.setLayout(layout)
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.show_frame)
 
     def process_frame(self, frame):
-        # Your custom function to process the video frame
-        # Example: Convert the frame to grayscale
-        # gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         return Classifier.classify(frame)
 
     def show_frame(self):
         if self.video_stream_active and self.cap is not None:
-            _, frame = self.cap.read()
-            if frame is not None:
+            ret, frame = self.cap.read()
+            if ret:
                 processed_frame = self.process_frame(frame)
                 self.display_frame(processed_frame)
-                self.tab1.after(10, self.show_frame)
             else:
                 self.stop_video_stream()
         else:
@@ -57,27 +60,22 @@ class VideoClassifierTab:
 
     def display_frame(self, frame):
         if frame is not None:
-            window_width = self.tab1.winfo_width()
-            window_height = self.tab1.winfo_height() - self.start_video_classifier_button.winfo_height() - 20
-
-            resized_width = max(self.min_width, window_width)
-            resized_height = max(self.min_height, window_height)
-
-            resized_frame = self.resize_frame(frame, resized_width, resized_height)
-
+            window_width = max(self.min_width, self.width())
+            window_height = max(self.min_height, self.height() - self.start_video_classifier_button.height() - 20)
+            resized_frame = self.resize_frame(frame, window_width, window_height)
             rgb_frame = cv2.cvtColor(resized_frame, cv2.COLOR_BGR2RGB)
-
-            img = Image.fromarray(rgb_frame)
-            img_tk = ImageTk.PhotoImage(image=img)
-            self.video_label.config(image=img_tk)
-            self.video_label.img = img_tk
+            h, w, ch = rgb_frame.shape
+            bytes_per_line = ch * w
+            qimg = QImage(rgb_frame.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
+            pixmap = QPixmap.fromImage(qimg)
+            self.video_label.setPixmap(pixmap)
 
     def toggle_video_stream(self):
         if not self.video_stream_active:
-            self.start_video_classifier_button.config(text="Stop Video Classifier")
+            self.start_video_classifier_button.setText("Stop Video Classifier")
             self.video_stream_active = True
-            self.cap = cv2.VideoCapture(0)  # Replace '0' with the video file path if you want to load a video file
-            self.show_frame()
+            self.cap = cv2.VideoCapture(0)
+            self.timer.start(10)
         else:
             self.stop_video_stream()
 
@@ -85,7 +83,7 @@ class VideoClassifierTab:
         if self.cap is not None:
             self.cap.release()
             self.cap = None
-        self.start_video_classifier_button.config(text="Start Video Classifier")
+        self.timer.stop()
+        self.start_video_classifier_button.setText("Start Video Classifier")
         self.video_stream_active = False
-        self.video_label.config(image=None)
-        self.video_label.img = None
+        self.video_label.clear()

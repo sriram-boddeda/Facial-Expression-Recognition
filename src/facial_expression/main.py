@@ -1,7 +1,7 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import Qt
+from PyQt6.QtWidgets import QApplication, QMainWindow, QTabWidget
+from PyQt6.QtGui import QIcon
+from PyQt6.QtCore import Qt
 from video_classifier_tab import VideoClassifierTab
 from image_classifier_tab import ImageClassifierTab
 
@@ -38,4 +38,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_window = MainApplication()
     main_window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
