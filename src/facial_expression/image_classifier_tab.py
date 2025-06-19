@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QFileDialog
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QImage, QPixmap
+from PyQt6.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QFileDialog
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QImage, QPixmap
 from PIL import Image
 import os
 import numpy as np
@@ -24,11 +24,11 @@ class ImageClassifierTab(QWidget):
         image_layout = QHBoxLayout()
 
         self.input_image_widget = QLabel("Input Image")
-        self.input_image_widget.setAlignment(Qt.AlignCenter)
+        self.input_image_widget.setAlignment(Qt.AlignmentFlag.AlignCenter)
         image_layout.addWidget(self.input_image_widget)
 
         self.output_image_widget = QLabel("Output Image")
-        self.output_image_widget.setAlignment(Qt.AlignCenter)
+        self.output_image_widget.setAlignment(Qt.AlignmentFlag.AlignCenter)
         image_layout.addWidget(self.output_image_widget)
 
         layout.addLayout(image_layout)
@@ -59,7 +59,12 @@ class ImageClassifierTab(QWidget):
                 input_width = int(input_height * aspect_ratio)
 
             input_image_resized = self.input_image.resize((input_width, input_height))
-            input_qimage = QImage(input_image_resized.tobytes(), input_width, input_height, QImage.Format_RGB888)
+            input_qimage = QImage(
+                input_image_resized.tobytes(),
+                input_width,
+                input_height,
+                QImage.Format.Format_RGB888,
+            )
             input_pixmap = QPixmap.fromImage(input_qimage)
             self.input_image_widget.setPixmap(input_pixmap)
 
@@ -72,7 +77,12 @@ class ImageClassifierTab(QWidget):
                     output_width = int(output_height * aspect_ratio)
 
                 output_image_resized = self.output_image.resize((output_width, output_height))
-                output_qimage = QImage(output_image_resized.tobytes(), output_width, output_height, QImage.Format_RGB888)
+                output_qimage = QImage(
+                    output_image_resized.tobytes(),
+                    output_width,
+                    output_height,
+                    QImage.Format.Format_RGB888,
+                )
                 output_pixmap = QPixmap.fromImage(output_qimage)
                 self.output_image_widget.setPixmap(output_pixmap)
 

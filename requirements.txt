@@ -1,8 +1,14 @@
-PyQt5
-PyQtWebEngine
+PyQt6
+PyQt6-WebEngine
 keras
 numpy
 opencv_python
 Pillow
 tensorflow
 tensorflow_macos
+scikit-learn
+matplotlib
+seaborn
+
+streamlit
+streamlit-webrtc

@@ -13,3 +13,4 @@ venv
 *.iml
 dist/
 build/
+data/dataset/fer2013.csv

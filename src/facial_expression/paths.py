@@ -14,8 +14,10 @@ DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 PROCESSED_DATA_DIR = os.path.join(DATA_DIR, 'processed')
 RAW_DATA_DIR = os.path.join(DATA_DIR, 'raw')
 
+DATASET_PATH = os.path.join(DATA_DIR, 'dataset', 'fer2013.csv')
+
 MODELS_DIR = os.path.join(PROJECT_ROOT, 'models')
-MODEL_PATH = os.path.join(MODELS_DIR, 'Trained_Model.h5')
+MODEL_PATH = os.path.join(MODELS_DIR, 'Trained_Model.keras')
 
 DOCS_DIR = os.path.join(PROJECT_ROOT, 'docs')
 ARCHITECTURE_IMAGE_PATH = os.path.join(DOCS_DIR, 'architecture', 'threecnnmode.jpg')
