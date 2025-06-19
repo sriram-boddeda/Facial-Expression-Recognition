@@ -18,8 +18,8 @@ This project provides a small PyQt6 based interface for performing facial expres
 
 A trained model is required to run the classifiers:
 
-- **Download**: Grab `Trained_Model.h5` from [Google Drive](https://drive.google.com/file/d/1RaSSzdPUyg-C6nV9Ztr7x6nlFf4xTCld) and place it in the repository root.
-- **Train it yourself**: Use `Model_Training.ipynb` together with the [FER-2013 dataset](https://www.kaggle.com/datasets/msambare/fer2013) to train a model and save it as `Trained_Model.h5`.
+- **Download**: Grab `Trained_Model.h5` from [Google Drive](https://drive.google.com/file/d/1RaSSzdPUyg-C6nV9Ztr7x6nlFf4xTCld) and place it in the `models/` directory at the project root.
+- **Train it yourself**: Use `Model_Training.ipynb` together with the [FER-2013 dataset](https://www.kaggle.com/datasets/msambare/fer2013) to train a model and save it to `models/Trained_Model.h5`.
 
 ## Usage
 

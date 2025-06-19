@@ -1,7 +1,7 @@
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import img_to_array
 #from keras.preprocessing.image import img_to_array
-from keras.preprocessing import image
+from tensorflow.keras.preprocessing import image
 import cv2
 import numpy as np
 import math as mt
@@ -17,7 +17,16 @@ from .paths import MODEL_PATH
 CASCADE_PATH = os.path.join(os.path.dirname(__file__),
                             'haarcascade_frontalface_default.xml')
 face_classifier = cv2.CascadeClassifier(CASCADE_PATH)
-classifier = load_model(MODEL_PATH)
+
+_classifier = None
+
+
+def _get_classifier():
+    """Load the trained CNN model on first use."""
+    global _classifier
+    if _classifier is None:
+        _classifier = load_model(MODEL_PATH)
+    return _classifier
 
 class_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
 
@@ -40,7 +49,7 @@ def classify(frame):
 
         # make a prediction on the ROF, then lookup the class
 
-            preds = classifier.predict(rof)[0] #predictions 0=highest one
+            preds = _get_classifier().predict(rof)[0]  # predictions 0=highest one
             label=class_labels[preds.argmax()]  #which expression has the highest probability values (0 to 6)
             label_position = (x,y+h+8)
             facex="face "+str(c)
