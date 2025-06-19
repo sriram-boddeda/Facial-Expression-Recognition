@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import math as mt
 import os
-from paths import PROCESSED_DATA_DIR, MODEL_PATH
+from .paths import PROCESSED_DATA_DIR, MODEL_PATH
 
 output_image_path = f"{PROCESSED_DATA_DIR}/output_image.jpg"
 
