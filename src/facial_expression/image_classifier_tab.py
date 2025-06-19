@@ -4,7 +4,7 @@ from PyQt6.QtGui import QImage, QPixmap
 from PIL import Image
 import os
 import numpy as np
-from .Classifier import classify
+from Classifier import classify
 
 
 class ImageClassifierTab(QWidget):

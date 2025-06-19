@@ -42,32 +42,35 @@ class_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral
 
 
 def classify(frame):
-    gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-    faces = face_classifier.detectMultiScale(gray,1.3,5)
-    c=1
-    for (x,y,w,h) in faces:
-        cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
-        rof_gray = gray[y:y+h,x:x+w]
-        rof_gray = cv2.resize(rof_gray,(48,48),interpolation=cv2.INTER_AREA)
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    faces = face_classifier.detectMultiScale(gray, 1.3, 5)
+    c = 1
+    for (x, y, w, h) in faces:
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+        rof_gray = gray[y:y + h, x:x + w]
+        rof_gray = cv2.resize(rof_gray, (48, 48), interpolation=cv2.INTER_AREA)
 
-        #ROF= Region of Face
+        if np.sum([rof_gray]) != 0:
+            rof = rof_gray.astype('float') / 255.0
+            rof = img_to_array(rof)  # shape: (48, 48, 1)
+            rof = np.expand_dims(rof, axis=0)  # shape: (1, 48, 48, 1)
 
-        if np.sum([rof_gray])!=0:
-            rof = rof_gray.astype('float')/255.0
-            rof = img_to_array(rof)
-            rof = np.expand_dims(rof,axis=0)
+            # ✅ Ensure input shape is correct
+            if rof.ndim == 5 and rof.shape[1] == 1:
+                rof = np.squeeze(rof, axis=1)
 
-        # make a prediction on the ROF, then lookup the class
-
-            preds = _get_classifier().predict(rof)[0]  # predictions 0=highest one
-            label=class_labels[preds.argmax()]  #which expression has the highest probability values (0 to 6)
-            label_position = (x,y+h+8)
-            facex="face "+str(c)
-            cv2.putText(frame,facex,(x,y),cv2.FONT_HERSHEY_SIMPLEX,w*(2/227),(0,255,0),mt.ceil(h*(2/180)))
-            cv2.putText(frame,label,label_position,cv2.FONT_HERSHEY_SIMPLEX,w*(2/227),(0,255,0),mt.ceil(h*(2/180)))
-            c+=1
+            # Make a prediction on the ROF, then lookup the class
+            preds = _get_classifier().predict(rof)[0]
+            label = class_labels[preds.argmax()]
+            label_position = (x, y + h + 8)
+            facex = "face " + str(c)
+            cv2.putText(frame, facex, (x, y), cv2.FONT_HERSHEY_SIMPLEX, w * (2 / 227), (0, 255, 0),
+                        mt.ceil(h * (2 / 180)))
+            cv2.putText(frame, label, label_position, cv2.FONT_HERSHEY_SIMPLEX, w * (2 / 227), (0, 255, 0),
+                        mt.ceil(h * (2 / 180)))
+            c += 1
         else:
-            cv2.putText(frame,'No Face Found',(20,60),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2)
+            cv2.putText(frame, 'No Face Found', (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     return frame
 
 

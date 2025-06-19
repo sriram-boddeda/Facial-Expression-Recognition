@@ -3,7 +3,7 @@ from PyQt6.QtCore import QTimer, Qt
 from PyQt6.QtGui import QImage, QPixmap
 import cv2
 import numpy as np
-from . import Classifier
+from Classifier import classify
 
 
 class VideoClassifierTab(QWidget):
@@ -31,7 +31,7 @@ class VideoClassifierTab(QWidget):
         self.timer.timeout.connect(self.show_frame)
 
     def process_frame(self, frame):
-        return Classifier.classify(frame)
+        return classify(frame)
 
     def show_frame(self):
         if self.video_stream_active and self.cap is not None:
