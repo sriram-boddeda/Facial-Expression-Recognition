@@ -21,10 +21,21 @@ _classifier = None
 
 
 def _get_classifier():
-    """Load the trained CNN model on first use."""
+    """Load the trained CNN model on first use.
+
+    ``load_model`` in Keras 3 can raise cryptic errors when the file is missing
+    or saved with an older version. By checking the path and disabling compile
+    and safe mode, we improve compatibility with legacy ``.h5`` models.
+    """
+
     global _classifier
     if _classifier is None:
-        _classifier = load_model(MODEL_PATH)
+        if not os.path.exists(MODEL_PATH):
+            raise FileNotFoundError(
+                f"Model file not found at {MODEL_PATH}. Please download or train it."
+            )
+
+        _classifier = load_model(MODEL_PATH, compile=False, safe_mode=False)
     return _classifier
 
 class_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
