@@ -1,7 +1,6 @@
 gitignore
 # Created by venv; see https://docs.python.org/3/library/venv.html
 lib
-Trained_Model.h5
 img/.DS_Store
 __pycache____pycache__
 *.pyc
@@ -14,3 +13,4 @@ venv
 dist/
 build/
 data/dataset/fer2013.csv
+models/Trained_Model.keras
