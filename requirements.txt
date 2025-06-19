@@ -6,6 +6,9 @@ opencv_python
 Pillow
 tensorflow
 tensorflow_macos
+scikit-learn
+matplotlib
+seaborn
 
 streamlit
 streamlit-webrtc
