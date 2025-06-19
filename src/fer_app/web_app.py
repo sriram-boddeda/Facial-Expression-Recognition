@@ -3,7 +3,7 @@ import numpy as np
 import streamlit as st
 from PIL import Image
 import av
-from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
+from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
 from pathlib import Path
 import sys
 
@@ -33,10 +33,10 @@ with image_tab:
 with webcam_tab:
     st.write("Webcam feed with real-time expression recognition.")
 
-    class EmotionTransformer(VideoTransformerBase):
-        def transform(self, frame):
+    class EmotionProcessor(VideoProcessorBase):
+        def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
             img = frame.to_ndarray(format="bgr24")
             img = classify(img)
             return av.VideoFrame.from_ndarray(img, format="bgr24")
 
-    webrtc_streamer(key="emotion", video_transformer_factory=EmotionTransformer)
+    webrtc_streamer(key="emotion", video_processor_factory=EmotionProcessor)
