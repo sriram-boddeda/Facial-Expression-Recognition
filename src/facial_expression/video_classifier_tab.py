@@ -3,7 +3,7 @@ from PyQt6.QtCore import QTimer, Qt
 from PyQt6.QtGui import QImage, QPixmap
 import cv2
 import numpy as np
-import Classifier
+from . import Classifier
 
 
 class VideoClassifierTab(QWidget):
