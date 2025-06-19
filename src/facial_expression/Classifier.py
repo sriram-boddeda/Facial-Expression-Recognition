@@ -5,12 +5,18 @@ from keras.preprocessing import image
 import cv2
 import numpy as np
 import math as mt
+import os
 from .paths import PROCESSED_DATA_DIR
 output_image_path = f"{PROCESSED_DATA_DIR}/output_image.jpg"
 from .paths import MODEL_PATH
 
 
-face_classifier = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+# Load the Haar cascade for face detection. The XML file lives alongside this
+# module, so construct the path relative to this file to avoid issues when the
+# current working directory differs.
+CASCADE_PATH = os.path.join(os.path.dirname(__file__),
+                            'haarcascade_frontalface_default.xml')
+face_classifier = cv2.CascadeClassifier(CASCADE_PATH)
 classifier = load_model(MODEL_PATH)
 
 class_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']

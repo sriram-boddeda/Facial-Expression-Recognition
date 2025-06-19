@@ -4,6 +4,14 @@ import streamlit as st
 from PIL import Image
 import av
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
+from pathlib import Path
+import sys
+
+# Ensure the "facial_expression" package can be imported when running via
+# ``streamlit run`` by adding the project root to ``sys.path``.
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.append(str(ROOT))
 
 from facial_expression.Classifier import classify
 
